@@ -86,49 +86,126 @@ async def extract_latest_vod(page) -> Dict[str, Any]:
     await goto(page, VOD_URL, "vod")
     await debug_save(page, "vod_page")
 
+    # VOD 카드 후보를 넓게 잡되, 메뉴(Catch/YouTube/게시판)는 제외
+    cards = await page.locator("a[href]").all()
     candidates = []
-    anchors = await page.locator("a[href]").all()
 
-    for a in anchors:
+    for a in cards:
         try:
             href = await a.get_attribute("href") or ""
             if href.startswith("/"):
                 href = "https://www.sooplive.com" + href
-            if "vod" not in href.lower():
+
+            href_l = href.lower()
+
+            # 실제 다시보기/영상 링크 후보만
+            if not (
+                "vod.sooplive.com/player" in href_l
+                or "/vod/" in href_l
+                or "/review/" in href_l
+            ):
                 continue
 
-            text = clean_text(await a.inner_text(timeout=800))
-            img = a.locator("img").first
-            thumb = ""
-            if await img.count():
-                thumb = await img.get_attribute("src") or await img.get_attribute("data-src") or await img.get_attribute("data-original") or ""
-                if thumb.startswith("//"):
-                    thumb = "https:" + thumb
-                elif thumb.startswith("/"):
-                    thumb = "https://www.sooplive.com" + thumb
-
-            if is_bad_vod(text, href, thumb):
+            # 메뉴성 링크 제외
+            if any(bad in href_l for bad in ["catch", "youtube", "board"]):
                 continue
+            if href_l.rstrip("/").endswith("/vod/review"):
+                continue
+
+            # 카드 전체 텍스트
+            title = clean_text(await a.inner_text(timeout=1000))
 
             try:
-                card_text = clean_text(await a.locator("xpath=ancestor::*[self::li or self::div][1]").inner_text(timeout=800))
-                if len(card_text) > len(text):
-                    text = card_text
+                card_text = clean_text(
+                    await a.locator("xpath=ancestor::*[self::li or self::div][1]").inner_text(timeout=1000)
+                )
+                if len(card_text) > len(title):
+                    title = card_text
             except Exception:
                 pass
 
+            if not title or title.lower() in {"catch", "youtube", "vod"}:
+                continue
+
+            # 썸네일 찾기: 링크 내부 img → 부모 카드 img 순서
+            thumb = ""
+
+            img = a.locator("img").first
+            if await img.count():
+                thumb = (
+                    await img.get_attribute("src")
+                    or await img.get_attribute("data-src")
+                    or await img.get_attribute("data-original")
+                    or await img.get_attribute("data-lazy")
+                    or ""
+                )
+
+            if not thumb:
+                try:
+                    parent_img = a.locator("xpath=ancestor::*[self::li or self::div][1]//img").first
+                    if await parent_img.count():
+                        thumb = (
+                            await parent_img.get_attribute("src")
+                            or await parent_img.get_attribute("data-src")
+                            or await parent_img.get_attribute("data-original")
+                            or await parent_img.get_attribute("data-lazy")
+                            or ""
+                        )
+                except Exception:
+                    pass
+
+            # background-image 썸네일 fallback
+            if not thumb:
+                try:
+                    bg = await a.evaluate("""
+                    el => {
+                      const nodes = [el, ...el.querySelectorAll('*')];
+                      for (const n of nodes) {
+                        const bg = getComputedStyle(n).backgroundImage || '';
+                        if (bg.includes('url(')) return bg;
+                      }
+                      const p = el.closest('li,div');
+                      if (p) {
+                        const nodes2 = [p, ...p.querySelectorAll('*')];
+                        for (const n of nodes2) {
+                          const bg = getComputedStyle(n).backgroundImage || '';
+                          if (bg.includes('url(')) return bg;
+                        }
+                      }
+                      return '';
+                    }
+                    """)
+                    m = re.search(r'url\\(["\\']?(.*?)["\\']?\\)', bg or "")
+                    if m:
+                        thumb = m.group(1)
+                except Exception:
+                    pass
+
+            if thumb.startswith("//"):
+                thumb = "https:" + thumb
+            elif thumb.startswith("/"):
+                thumb = "https://www.sooplive.com" + thumb
+
+            # 기본 아이콘/svg 제외
+            thumb_l = thumb.lower()
+            if thumb_l.endswith(".svg") or "ico_lnb" in thumb_l or "catch" in thumb_l:
+                thumb = ""
+
             candidates.append({
-                "title": text[:160] or "최근 다시보기",
+                "title": title[:160],
                 "url": href,
                 "thumb": thumb,
                 "source": VOD_URL,
                 "scrapedAt": now_kst_iso(),
             })
+
         except Exception:
             continue
 
     if candidates:
-        print(f"[vod] candidates={len(candidates)}")
+        # 썸네일 있는 후보를 우선 선택
+        candidates.sort(key=lambda x: 0 if x.get("thumb") else 1)
+        print(f"[vod] candidates={len(candidates)}, selected_thumb={bool(candidates[0].get('thumb'))}")
         return candidates[0]
 
     return {
