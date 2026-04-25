@@ -5,7 +5,6 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any, Dict, List
 
-from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 USER_ID = "wjswlgns09"
@@ -67,19 +66,18 @@ async def goto(page, url: str, label: str) -> None:
 
 
 def is_bad_vod(title: str, url: str, thumb: str) -> bool:
-    t = (title or "").strip()
+    t = (title or "").strip().lower()
     u = (url or "").lower()
     th = (thumb or "").lower()
 
-    if not t:
-        return True
-    if t in {"catch", "youtube", "vod", "게시판", "전체 게시판", "유튜브"}:
+    bad_exact = {"catch", "youtube", "vod", "게시판", "전체 게시판", "유튜브"}
+    if not t or t in bad_exact:
         return True
     if "catch" in u or "youtube" in u:
         return True
     if th.endswith(".svg") or "ico_lnb" in th:
         return True
-    if "station/" in u and "/vod/review" in u and u.rstrip("/").endswith("/vod/review"):
+    if u.rstrip("/").endswith("/vod/review"):
         return True
     return False
 
@@ -88,9 +86,9 @@ async def extract_latest_vod(page) -> Dict[str, Any]:
     await goto(page, VOD_URL, "vod")
     await debug_save(page, "vod_page")
 
-    # 카드형 다시보기 후보. 메뉴/사이드바 링크(Catch 등)는 제외한다.
     candidates = []
     anchors = await page.locator("a[href]").all()
+
     for a in anchors:
         try:
             href = await a.get_attribute("href") or ""
@@ -112,7 +110,6 @@ async def extract_latest_vod(page) -> Dict[str, Any]:
             if is_bad_vod(text, href, thumb):
                 continue
 
-            # 긴 카드 텍스트를 제목 후보로 사용
             try:
                 card_text = clean_text(await a.locator("xpath=ancestor::*[self::li or self::div][1]").inner_text(timeout=800))
                 if len(card_text) > len(text):
@@ -144,166 +141,195 @@ async def extract_latest_vod(page) -> Dict[str, Any]:
     }
 
 
-async def find_calendar_cells_by_geometry(page) -> List[Dict[str, Any]]:
-    """
-    li 기반 선택자는 게시판/VOD 메뉴를 잘못 잡는다.
-    그래서 화면에 보이는 '큰 달력 7칸'을 bounding box로 찾는다.
-    조건:
-    - visible
-    - width >= 100, height >= 90
-    - 텍스트가 너무 길지 않음
-    - 달력 날짜/일정 텍스트 포함
-    - 같은 행(y축)에 있는 7개 큰 박스
-    """
-    cells = await page.evaluate("""
-    () => {
-      const all = Array.from(document.querySelectorAll('div,td,li,button,a'));
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const rows = [];
-      for (const el of all) {
-        const r = el.getBoundingClientRect();
-        const style = getComputedStyle(el);
-        if (style.visibility === 'hidden' || style.display === 'none') continue;
-        if (r.width < 100 || r.height < 80) continue;
-        if (r.top < 40 || r.top > vh * 0.65) continue;
-        if (r.left < -5 || r.right > vw + 5) continue;
-        const txt = (el.innerText || '').replace(/\\s+/g, ' ').trim();
-        if (!txt) continue;
-        if (txt.length > 160) continue;
-        // 날짜 숫자 또는 일정 키워드가 있어야 함
-        if (!/(\\d{1,2}일|\\d{1,2}\\s|방송|휴방|합방|예정|오후|오전)/.test(txt)) continue;
-        rows.push({
-          tag: el.tagName,
-          text: txt,
-          x: r.left,
-          y: r.top,
-          w: r.width,
-          h: r.height,
-          cx: r.left + r.width / 2,
-          cy: r.top + r.height / 2
-        });
-      }
-      return rows;
-    }
-    """)
+def parse_cell_text(text: str) -> Dict[str, str]:
+    text = clean_text(text)
+    date_match = re.search(r"(\d{1,2})일", text)
+    time_match = re.search(r"(오전|오후)\s*\d{1,2}(?::\d{2})?", text)
 
-    # y가 비슷한 것끼리 묶고, 가장 7칸에 가까운 행 선택
-    groups: List[List[Dict[str, Any]]] = []
-    for c in sorted(cells, key=lambda x: (x["y"], x["x"])):
-        placed = False
-        for g in groups:
-            if abs(g[0]["y"] - c["y"]) < 35:
-                g.append(c)
-                placed = True
-                break
-        if not placed:
-            groups.append([c])
-
-    best = []
-    for g in groups:
-        # 중복/부모 요소 제거: x 중심이 비슷하면 작은 영역보다 달력칸다운 큰 영역 우선
-        g = sorted(g, key=lambda x: (x["x"], -x["w"] * x["h"]))
-        dedup = []
-        for c in g:
-            if any(abs(c["cx"] - d["cx"]) < 45 for d in dedup):
-                continue
-            dedup.append(c)
-        # 7개 이상이면 왼쪽부터 7개
-        if len(dedup) >= 7:
-            best = sorted(dedup, key=lambda x: x["x"])[:7]
-            break
-        if len(dedup) > len(best):
-            best = dedup
-
-    print("[calendar] geometry candidates:", len(best))
-    for i, c in enumerate(best[:7]):
-        print(f"  {i}: x={c['x']:.0f} y={c['y']:.0f} w={c['w']:.0f} h={c['h']:.0f} text={c['text'][:60]}")
-
-    return sorted(best, key=lambda x: x["x"])[:7]
-
-
-async def read_detail_after_click(page) -> str:
-    # 클릭 후 아래에 생기는 상세 박스만 노린다. 달력 위쪽 전체 텍스트를 피하기 위해 y 큰 요소 위주.
-    await page.wait_for_timeout(900)
-    detail = await page.evaluate("""
-    () => {
-      const vh = window.innerHeight;
-      const all = Array.from(document.querySelectorAll('div,section,article,li'));
-      const cand = [];
-      for (const el of all) {
-        const r = el.getBoundingClientRect();
-        const style = getComputedStyle(el);
-        if (style.visibility === 'hidden' || style.display === 'none') continue;
-        if (r.width < 250 || r.height < 45) continue;
-        if (r.top < 210) continue; // 달력 칸 위쪽 제외
-        const txt = (el.innerText || '').replace(/\\s+/g, ' ').trim();
-        if (!txt || txt.length < 2 || txt.length > 500) continue;
-        // 일정 상세 박스에 자주 나오는 키워드
-        if (/(오전|오후|방송|휴방|합방|예정|ASL|CK|스폰|직관|준비중)/.test(txt)) {
-          cand.push({text: txt, x:r.left, y:r.top, w:r.width, h:r.height, area:r.width*r.height});
-        }
-      }
-      cand.sort((a,b) => {
-        // 너무 큰 전체 컨테이너보다 중간 크기 박스 선호
-        const scoreA = Math.abs(a.w - 900) + Math.abs(a.h - 100) + a.y * 0.02;
-        const scoreB = Math.abs(b.w - 900) + Math.abs(b.h - 100) + b.y * 0.02;
-        return scoreA - scoreB;
-      });
-      return cand[0] || null;
-    }
-    """)
-    return clean_text(detail["text"]) if detail else ""
-
-
-def parse_cell_text(cell_text: str) -> Dict[str, str]:
-    cell_text = clean_text(cell_text)
-    date_match = re.search(r"(\d{1,2})일", cell_text)
     status = ""
     for key in ["방송 예정", "방송", "합방", "휴방", "기타"]:
-        if key in cell_text:
+        if key in text:
             status = key
             break
-    time_match = re.search(r"(오전|오후)\s*\d{1,2}(?::\d{2})?", cell_text)
+
     return {
-        "date": date_match.group(1) + "일" if date_match else "",
+        "date": f"{date_match.group(1)}일" if date_match else "",
         "status": status,
         "time": time_match.group(0) if time_match else "",
-        "raw": cell_text,
+        "raw": text,
     }
 
 
 def parse_detail_text(text: str) -> Dict[str, str]:
     text = clean_text(text)
     if not text:
-        return {"category": "", "time": "", "title": "", "raw": ""}
+        return {"status": "", "time": "", "title": "", "raw": ""}
 
-    category = ""
+    # 주간 전체 텍스트가 들어오면 무효 처리
+    date_count = len(re.findall(r"\d{1,2}일", text))
+    if date_count >= 3:
+        return {"status": "", "time": "", "title": "", "raw": text, "invalid": "WEEK_SUMMARY_TEXT"}
+
+    status = ""
     for key in ["방송 예정", "방송", "합방", "휴방", "기타"]:
         if key in text:
-            category = key
+            status = key
             break
 
     time_match = re.search(r"(오전|오후)\s*\d{1,2}(?::\d{2})?", text)
     time = time_match.group(0) if time_match else ""
 
-    # 카테고리/시간 제거 후 남은 내용을 제목으로
     title = text
-    if category:
-        title = title.replace(category, " ")
+    if status:
+        title = title.replace(status, " ")
     if time:
         title = title.replace(time, " ")
     title = clean_text(title)
-    # 상세 박스에 카테고리/시간/제목 순으로 있으면 제목이 짧게 남는다
-    if not title:
-        title = text
+
+    # 휴방은 제목도 휴방 처리
+    if status == "휴방" and not title:
+        title = "휴방"
 
     return {
-        "category": category,
+        "status": status,
         "time": time,
-        "title": title[:160],
+        "title": title[:160] if title else status,
         "raw": text,
     }
+
+
+async def get_week_calendar_grid(page) -> Dict[str, Any]:
+    """
+    v3 핵심:
+    1) 실제 화면에서 '일 월 화 수 목 금 토' 헤더 7개를 찾음
+    2) 헤더 바로 아래의 같은 x축 7개 날짜칸 중앙 좌표를 계산
+    3) li/메뉴/게시판 후보는 완전히 배제
+    """
+    grid = await page.evaluate("""
+    () => {
+      const dayNames = ['일','월','화','수','목','금','토'];
+      const visible = el => {
+        const s = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        return s.display !== 'none' && s.visibility !== 'hidden' && r.width > 20 && r.height > 10;
+      };
+
+      const els = Array.from(document.querySelectorAll('div,span,th,td,li,button'));
+      const dayEls = [];
+      for (const el of els) {
+        if (!visible(el)) continue;
+        const txt = (el.innerText || '').replace(/\\s+/g,' ').trim();
+        if (dayNames.includes(txt)) {
+          const r = el.getBoundingClientRect();
+          dayEls.push({txt, x:r.left, y:r.top, w:r.width, h:r.height, cx:r.left+r.width/2, cy:r.top+r.height/2});
+        }
+      }
+
+      // y가 비슷하고 일월화수목금토 순서가 맞는 헤더 행 찾기
+      const groups = [];
+      for (const d of dayEls.sort((a,b)=>a.y-b.y || a.x-b.x)) {
+        let g = groups.find(row => Math.abs(row[0].y - d.y) < 20);
+        if (!g) { g = []; groups.push(g); }
+        g.push(d);
+      }
+
+      let header = null;
+      for (const g of groups) {
+        const sorted = g.sort((a,b)=>a.x-b.x);
+        const seq = sorted.map(x=>x.txt).join('');
+        if (sorted.length >= 7 && seq.includes('일월화수목금토')) {
+          header = sorted.slice(0,7);
+          break;
+        }
+      }
+
+      if (!header) return {error:'NO_WEEK_HEADER', dayEls};
+
+      const xs = header.map(h => h.cx);
+      const headerY = Math.max(...header.map(h => h.y + h.h));
+
+      // 헤더 아래 큰 날짜칸 후보
+      const blocks = [];
+      const all = Array.from(document.querySelectorAll('div,td,li,button'));
+      for (const el of all) {
+        if (!visible(el)) continue;
+        const r = el.getBoundingClientRect();
+        const txt = (el.innerText || '').replace(/\\s+/g,' ').trim();
+        if (r.top < headerY - 5) continue;
+        if (r.top > headerY + 260) continue;
+        if (r.width < 80 || r.height < 60) continue;
+        if (!/\\d{1,2}일/.test(txt)) continue;
+        if (txt.length > 70) continue;
+        if (/열혈팬|구독|랭킹|게시판|VOD|하단메뉴|전체메뉴/.test(txt)) continue;
+        blocks.push({
+          text: txt,
+          x:r.left, y:r.top, w:r.width, h:r.height,
+          cx:r.left+r.width/2, cy:r.top+r.height/2
+        });
+      }
+
+      // 각 요일 헤더 x축과 가장 가까운 날짜칸 1개씩 매칭
+      const cells = xs.map((x, idx) => {
+        const near = blocks
+          .filter(b => Math.abs(b.cx - x) < Math.max(90, b.w/1.2))
+          .sort((a,b) => Math.abs(a.cx-x)-Math.abs(b.cx-x) || a.y-b.y)[0];
+        if (near) return {...near, method:'block-match', dayIndex:idx};
+
+        // 후보가 없으면 헤더 x + 날짜칸 예상 y로 좌표 fallback
+        return {
+          text:'',
+          x:x-40,
+          y:headerY+55,
+          w:80,
+          h:90,
+          cx:x,
+          cy:headerY+95,
+          method:'coordinate-fallback',
+          dayIndex:idx
+        };
+      });
+
+      return {header, blocks, cells};
+    }
+    """)
+    return grid
+
+
+async def read_detail_after_click(page, clicked_cy: float) -> str:
+    await page.wait_for_timeout(850)
+
+    # 클릭한 날짜칸 아래쪽에 생긴 상세 박스만 잡는다.
+    detail = await page.evaluate("""
+    (clickedCy) => {
+      const all = Array.from(document.querySelectorAll('div,section,article,li'));
+      const cand = [];
+      for (const el of all) {
+        const s = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        if (s.display === 'none' || s.visibility === 'hidden') continue;
+        if (r.width < 240 || r.height < 45) continue;
+        if (r.top < clickedCy + 15) continue;
+        const txt = (el.innerText || '').replace(/\\s+/g,' ').trim();
+        if (!txt || txt.length < 2 || txt.length > 260) continue;
+        if (/열혈팬|구독|랭킹|게시판|VOD|하단메뉴|전체메뉴|공유하기/.test(txt)) continue;
+
+        const dateCount = (txt.match(/\\d{1,2}일/g) || []).length;
+        if (dateCount >= 3) continue; // 주간 전체 요약 제외
+
+        if (/(오전|오후|방송|휴방|합방|예정|ASL|CK|스폰|직관|준비중)/.test(txt)) {
+          cand.push({
+            text: txt,
+            x:r.left, y:r.top, w:r.width, h:r.height,
+            score: Math.abs(r.width - 900) + Math.abs(r.height - 100) + Math.abs(r.top - (clickedCy+35))
+          });
+        }
+      }
+      cand.sort((a,b)=>a.score-b.score);
+      return cand[0] || null;
+    }
+    """, clicked_cy)
+
+    return clean_text(detail["text"]) if detail else ""
 
 
 async def extract_week_schedule(page) -> Dict[str, Any]:
@@ -311,54 +337,70 @@ async def extract_week_schedule(page) -> Dict[str, Any]:
     await debug_save(page, "calendar_initial")
 
     day_names = ["일", "월", "화", "수", "목", "금", "토"]
-    cells = await find_calendar_cells_by_geometry(page)
+    grid = await get_week_calendar_grid(page)
 
-    if len(cells) < 7:
-        await debug_save(page, "calendar_no_7_cells")
+    if grid.get("error"):
+        await debug_save(page, "calendar_grid_error")
         return {
             "items": [],
             "source": CALENDAR_URL,
-            "error": "CALENDAR_7_CELLS_NOT_FOUND",
-            "debugCandidates": cells,
+            "error": grid.get("error"),
+            "debug": grid,
             "scrapedAt": now_kst_iso(),
         }
+
+    cells = grid.get("cells", [])
+    print("[calendar] cells:")
+    for c in cells:
+        print(f"  {c.get('dayIndex')}: {c.get('method')} {c.get('text')} x={c.get('cx')} y={c.get('cy')}")
 
     items = []
     for i, cell in enumerate(cells[:7]):
         try:
-            await page.mouse.click(cell["cx"], cell["cy"])
-            detail_text = await read_detail_after_click(page)
-            cell_info = parse_cell_text(cell["text"])
+            await page.mouse.click(float(cell["cx"]), float(cell["cy"]))
+            detail_text = await read_detail_after_click(page, float(cell["cy"]))
+
+            cell_info = parse_cell_text(cell.get("text", ""))
             detail_info = parse_detail_text(detail_text)
 
-            # 상세 박스가 없으면 셀 텍스트 기반으로라도 보관
-            final = {
+            status = detail_info.get("status") or cell_info.get("status") or ""
+            time = detail_info.get("time") or cell_info.get("time") or ""
+            title = detail_info.get("title") or ("일정 없음" if not status else status)
+
+            # 상세가 주간 전체라 무효 처리됐으면 셀 정보만 사용
+            if detail_info.get("invalid"):
+                title = status or "일정 없음"
+                detail_text = ""
+
+            item = {
                 "dayIndex": i,
                 "dayName": day_names[i],
-                "date": cell_info["date"],
-                "status": detail_info["category"] or cell_info["status"],
-                "time": detail_info["time"] or cell_info["time"],
-                "title": detail_info["title"] or cell_info["raw"],
-                "cellText": cell["text"],
+                "date": cell_info.get("date", ""),
+                "status": status,
+                "time": time,
+                "title": title,
+                "cellText": cell.get("text", ""),
                 "detailText": detail_text,
+                "clickMethod": cell.get("method", ""),
             }
-            items.append(final)
-            print(f"[schedule] {day_names[i]} {final['date']} {final['status']} {final['time']} {final['title'][:60]}")
+            items.append(item)
+            print(f"[schedule] {item}")
         except Exception as e:
             items.append({
                 "dayIndex": i,
                 "dayName": day_names[i],
-                "date": parse_cell_text(cell["text"]).get("date", ""),
+                "date": parse_cell_text(cell.get("text", "")).get("date", ""),
                 "status": "",
                 "time": "",
-                "title": "",
-                "cellText": cell["text"],
+                "title": "수집 실패",
+                "cellText": cell.get("text", ""),
                 "detailText": "",
                 "error": str(e),
             })
             await debug_save(page, f"calendar_day_{i}_error")
 
     await debug_save(page, "calendar_done")
+
     return {
         "items": items,
         "source": CALENDAR_URL,
