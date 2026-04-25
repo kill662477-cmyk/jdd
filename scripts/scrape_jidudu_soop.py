@@ -175,7 +175,7 @@ async def extract_latest_vod(page) -> Dict[str, Any]:
                       return '';
                     }
                     """)
-                    m = re.search(r'url\\(["\\']?(.*?)["\\']?\\)', bg or "")
+                    m = re.search(r"url\([\"']?(.*?)[\"']?\)", bg or "")
                     if m:
                         thumb = m.group(1)
                 except Exception:
