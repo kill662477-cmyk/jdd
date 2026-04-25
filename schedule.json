@@ -3,74 +3,81 @@
     {
       "dayIndex": 0,
       "dayName": "일",
-      "date": "",
-      "status": "방송 예정",
-      "time": "오후 4",
-      "title": "19일 20일 합방 시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 오후 7시",
-      "cellText": "열혈팬 Jay22 회장 아오라키_ 부회장 유자# 3등 구독팬 잠만보두두 1등 동그란지두두 2등 [GST]첼자르 3등 구독 선물 랭킹",
-      "detailText": "19일 20일 합방 오후 4시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 방송 예정 오후 7시"
+      "date": "19일",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "19일",
+      "detailText": "",
+      "clickMethod": "block-match"
     },
     {
       "dayIndex": 1,
       "dayName": "월",
-      "date": "19일",
-      "status": "방송",
-      "time": "오후 7:00",
-      "title": "시빌워",
-      "cellText": "19일 20일 합방 오후 4시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 방송 예정 오후 7시",
-      "detailText": "방송 오후 7:00 시빌워"
-    },
-    {
-      "dayIndex": 2,
-      "dayName": "화",
-      "date": "19일",
-      "status": "방송 예정",
-      "time": "오후 4",
-      "title": "19일 20일 합방 시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 오후 7시",
-      "cellText": "19일",
-      "detailText": "19일 20일 합방 오후 4시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 방송 예정 오후 7시"
-    },
-    {
-      "dayIndex": 3,
-      "dayName": "수",
       "date": "20일",
       "status": "합방",
       "time": "오후 4:00",
       "title": "ASL 직관",
       "cellText": "20일 합방 오후 4시",
-      "detailText": "합방 오후 4:00 ASL 직관"
+      "detailText": "합방 오후 4:00 ASL 직관",
+      "clickMethod": "block-match"
+    },
+    {
+      "dayIndex": 2,
+      "dayName": "화",
+      "date": "21일",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "21일",
+      "detailText": "",
+      "clickMethod": "block-match"
+    },
+    {
+      "dayIndex": 3,
+      "dayName": "수",
+      "date": "22일",
+      "status": "방송",
+      "time": "오후 7:00",
+      "title": "시빌워",
+      "cellText": "22일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 시빌워",
+      "clickMethod": "block-match"
     },
     {
       "dayIndex": 4,
       "dayName": "목",
-      "date": "21일",
-      "status": "방송 예정",
-      "time": "오후 4",
-      "title": "19일 20일 합방 시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 오후 7시",
-      "cellText": "21일",
-      "detailText": "19일 20일 합방 오후 4시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 방송 예정 오후 7시"
+      "date": "23일",
+      "status": "휴방",
+      "time": "오후 8:00",
+      "title": "휴방",
+      "cellText": "23일 휴방 오후 8시",
+      "detailText": "휴방 오후 8:00 휴방",
+      "clickMethod": "block-match"
     },
     {
       "dayIndex": 5,
       "dayName": "금",
-      "date": "23일",
-      "status": "휴방",
-      "time": "오후 8:00",
-      "title": "휴방 오후 8:00 휴방",
-      "cellText": "23일 휴방 오후 8시",
-      "detailText": "휴방 오후 8:00 휴방"
+      "date": "24일",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "24일",
+      "detailText": "",
+      "clickMethod": "block-match"
     },
     {
       "dayIndex": 6,
       "dayName": "토",
-      "date": "24일",
+      "date": "25일",
       "status": "방송 예정",
-      "time": "오후 4",
-      "title": "19일 20일 합방 시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 오후 7시",
-      "cellText": "24일",
-      "detailText": "19일 20일 합방 오후 4시 21일 22일 방송 오후 7시 23일 휴방 오후 8시 24일 25일 방송 예정 오후 7시"
+      "time": "오후 7:00",
+      "title": "대학대전 🆚 뉴캣슬",
+      "cellText": "25일 방송 예정 오후 7시",
+      "detailText": "방송 예정 오후 7:00 대학대전 🆚 뉴캣슬",
+      "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-04-25T17:32:46+09:00"
+  "scrapedAt": "2026-04-25T17:40:57+09:00"
 }
