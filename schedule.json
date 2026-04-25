@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "25일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 7:00",
       "title": "대학대전 🆚 뉴캣슬",
-      "cellText": "25일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 대학대전 🆚 뉴캣슬",
+      "cellText": "25일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 대학대전 🆚 뉴캣슬",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-04-25T18:33:18+09:00"
+  "scrapedAt": "2026-04-25T19:01:12+09:00"
 }
