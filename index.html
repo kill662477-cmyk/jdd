@@ -77,9 +77,34 @@
     transform-origin:top center;
   }
 
+
+#bgmToggle{
+  position:absolute;
+  top:15px;
+  right:20px;
+  z-index:9999;
+  background:linear-gradient(135deg,#ff4fb3,#ff2f9e);
+  color:#fff;
+  font-weight:900;
+  font-size:14px;
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(255,47,158,.4);
+}
+
 </style>
 </head>
 <body>
+
+<div id="bgmToggle">BGM OFF</div>
+
+<iframe id="bgmPlayer"
+src="https://www.youtube.com/embed/7j9kiIKyhZQ?autoplay=1&loop=1&playlist=7j9kiIKyhZQ&enablejsapi=1"
+frameborder="0"
+allow="autoplay"
+style="position:absolute;width:0;height:0;border:0;"></iframe>
+
 <div class="wrap">
   <section class="hero" id="hero">
     <div class="top">
@@ -245,6 +270,31 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
   window.addEventListener('resize', fitOnePage);
   window.addEventListener('orientationchange', function(){
     setTimeout(fitOnePage, 500);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  let isPlaying = true;
+  const btn = document.getElementById('bgmToggle');
+  const player = document.getElementById('bgmPlayer');
+
+  // 강제 unmute 시도
+  setTimeout(()=>{
+    player.src = "https://www.youtube.com/embed/7j9kiIKyhZQ?autoplay=1&loop=1&playlist=7j9kiIKyhZQ";
+  }, 500);
+
+  btn.addEventListener('click', function(){
+    if(isPlaying){
+      player.src = "";
+      btn.textContent = "BGM ON";
+    }else{
+      player.src = "https://www.youtube.com/embed/7j9kiIKyhZQ?autoplay=1&loop=1&playlist=7j9kiIKyhZQ";
+      btn.textContent = "BGM OFF";
+    }
+    isPlaying = !isPlaying;
   });
 })();
 </script>
