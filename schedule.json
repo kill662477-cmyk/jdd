@@ -26,11 +26,11 @@
       "dayIndex": 2,
       "dayName": "화",
       "date": "28일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 4:00",
       "title": "ASL 응원",
-      "cellText": "28일 방송 예정 오후 4시",
-      "detailText": "방송 예정 오후 4:00 ASL 응원",
+      "cellText": "28일 방송 오후 4시",
+      "detailText": "방송 오후 4:00 ASL 응원",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-04-28T15:01:21+09:00"
+  "scrapedAt": "2026-04-28T16:01:29+09:00"
 }
