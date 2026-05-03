@@ -15,11 +15,11 @@
       "dayIndex": 1,
       "dayName": "월",
       "date": "4일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "4일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 8:00",
+      "title": "휴방",
+      "cellText": "4일 휴방 오후 8시",
+      "detailText": "휴방 오후 8:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-04T07:01:23+09:00"
+  "scrapedAt": "2026-05-04T08:01:14+09:00"
 }
