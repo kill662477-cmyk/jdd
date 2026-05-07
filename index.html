@@ -148,7 +148,7 @@
       <div class="profileBox" id="profileBox">
         <div class="photoWrap">
           <div class="bgmBox" id="bgmBox">
-            <iframe id="bgmPlayer" src="https://www.youtube.com/embed/7j9kiIKyhZQ?autoplay=1&loop=1&playlist=7j9kiIKyhZQ&playsinline=1&controls=1&disablekb=0&fs=0&rel=0&modestbranding=1&enablejsapi=1&mute=1&origin=https://monstarz-board.netlify.app" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div id="bgmPlayer"></div>
             <div class="bgmControls">
               <button id="bgmToggle" type="button">BGM OFF</button>
               <input id="bgmVolume" type="range" min="0" max="100" value="15" step="1" aria-label="BGM 볼륨">
@@ -327,46 +327,24 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
 (function(){
   const VIDEO_ID = "7j9kiIKyhZQ";
   const START_VOLUME = 15;
+
   const btn = document.getElementById("bgmToggle");
-  const player = document.getElementById("bgmPlayer");
   const volume = document.getElementById("bgmVolume");
   const volText = document.getElementById("bgmVolText");
-  if(!btn || !player) return;
+  if(!btn) return;
 
+  let ytPlayer = null;
   let isPlaying = true;
-  let apiReady = false;
+  let ready = false;
+  let pendingUnmuteTimer = null;
 
-  function bgmUrl(){
-    return "https://www.youtube.com/embed/" + VIDEO_ID
-      + "?autoplay=1"
-      + "&loop=1"
-      + "&playlist=" + VIDEO_ID
-      + "&playsinline=1"
-      + "&controls=1"
-      + "&disablekb=0"
-      + "&fs=0"
-      + "&rel=0"
-      + "&modestbranding=1"
-      + "&enablejsapi=1"
-      + "&mute=1"
-      + "&origin=" + encodeURIComponent(location.origin || location.protocol + "//" + location.host)
-      + "&v=" + Date.now();
+  function currentVolume(){
+    return Math.max(0, Math.min(100, parseInt(volume && volume.value || START_VOLUME, 10) || START_VOLUME));
   }
 
-  function postYoutube(func, args){
-    try{
-      if(player && player.contentWindow){
-        player.contentWindow.postMessage(JSON.stringify({event:"command",func:func,args:args || []}), "*");
-      }
-    }catch(e){}
-  }
-
-  function setVolume(v){
-    const n = Math.max(0, Math.min(100, parseInt(v,10) || 0));
-    if(volume) volume.value = String(n);
-    if(volText) volText.textContent = n + "%";
-    postYoutube("setVolume", [n]);
-    if(n > 0) postYoutube("unMute");
+  function syncVolumeText(v){
+    if(volume) volume.value = String(v);
+    if(volText) volText.textContent = v + "%";
   }
 
   function setPlayingUI(){
@@ -381,48 +359,92 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
     isPlaying = false;
   }
 
-  function playBgm(reload){
-    if(reload || !player.src || player.src === "about:blank"){
-      player.src = bgmUrl();
-    }
+  function safeCall(fn){
+    try{ if(ytPlayer && typeof ytPlayer[fn] === "function") ytPlayer[fn].apply(ytPlayer, Array.prototype.slice.call(arguments,1)); }catch(e){}
+  }
+
+  function applyLowVolumeThenSound(){
+    if(!ytPlayer) return;
+    const v = currentVolume();
+
+    // 핵심: 절대 먼저 unMute 하지 않고, mute 상태에서 볼륨 명령을 여러 번 먹인 뒤 소리를 연다.
+    safeCall("mute");
+    safeCall("setVolume", v);
+    safeCall("playVideo");
+
+    clearTimeout(pendingUnmuteTimer);
+    pendingUnmuteTimer = setTimeout(function(){
+      safeCall("setVolume", v);
+      safeCall("unMute");
+      safeCall("setVolume", v);
+      if(isPlaying) safeCall("playVideo");
+    }, 900);
+  }
+
+  function playBgm(){
     setPlayingUI();
-    setTimeout(function(){
-      postYoutube("setVolume", [parseInt(volume && volume.value || START_VOLUME,10)]);
-      setTimeout(function(){ postYoutube("unMute"); }, 80);
-      postYoutube("playVideo");
-    }, 450);
+    if(!ready || !ytPlayer) return;
+    applyLowVolumeThenSound();
   }
 
   function stopBgm(){
-    postYoutube("pauseVideo");
+    clearTimeout(pendingUnmuteTimer);
+    if(ytPlayer){
+      safeCall("pauseVideo");
+      safeCall("mute");
+    }
     setStoppedUI();
   }
 
-  // 시작 볼륨 15% 세팅
-  setVolume(START_VOLUME);
+  syncVolumeText(START_VOLUME);
   setPlayingUI();
 
-  player.addEventListener("load", function(){
-    setTimeout(function(){
-      setVolume(START_VOLUME);
-      if(isPlaying){
-        postYoutube("playVideo");
-        setTimeout(function(){ postYoutube("unMute"); }, 100);
+  window.onYouTubeIframeAPIReady = function(){
+    ytPlayer = new YT.Player("bgmPlayer", {
+      width: "122",
+      height: "69",
+      videoId: VIDEO_ID,
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: VIDEO_ID,
+        playsinline: 1,
+        controls: 1,
+        disablekb: 0,
+        fs: 0,
+        rel: 0,
+        modestbranding: 1,
+        origin: location.origin || (location.protocol + "//" + location.host)
+      },
+      events: {
+        onReady: function(){
+          ready = true;
+          syncVolumeText(START_VOLUME);
+          if(isPlaying) applyLowVolumeThenSound();
+        },
+        onStateChange: function(e){
+          // 중간에 유튜브가 다시 기본값으로 튀는 경우 대비해서 재생 시작 직후에도 한 번 더 15% 고정
+          if(e && e.data === 1){
+            const v = currentVolume();
+            safeCall("setVolume", v);
+            if(isPlaying) setPlayingUI();
+          }
+        }
       }
-    }, 500);
-  });
+    });
+  };
 
-  // 원본 페이지 로딩 시 자동재생 시도
-  window.addEventListener("DOMContentLoaded", function(){ playBgm(false); });
-  window.addEventListener("load", function(){
-    setTimeout(function(){ setVolume(START_VOLUME); playBgm(false); }, 600);
-    setTimeout(function(){ setVolume(START_VOLUME); playBgm(false); }, 1800);
-  });
+  // API 스크립트 로드
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScript = document.getElementsByTagName("script")[0];
+  firstScript.parentNode.insertBefore(tag, firstScript);
 
-  // 플레이어가 보이는 상태에서 첫 동작 때 한 번 더 재생 시도
+  // 첫 사용자 동작 때도 버튼 2번 누를 필요 없게 같은 재생 함수를 바로 호출
   ["pointerdown","touchstart","mousedown","keydown"].forEach(function(ev){
     window.addEventListener(ev, function once(){
-      if(isPlaying) playBgm(false);
+      if(isPlaying) playBgm();
       window.removeEventListener(ev, once, true);
     }, true);
   });
@@ -433,14 +455,19 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
     if(isPlaying){
       stopBgm();
     }else{
-      playBgm(true);
+      playBgm();
     }
   });
 
   if(volume){
     volume.addEventListener("input", function(){
-      setVolume(volume.value);
-      if(isPlaying) postYoutube("playVideo");
+      const v = currentVolume();
+      syncVolumeText(v);
+      if(ytPlayer){
+        safeCall("setVolume", v);
+        if(v <= 0){ safeCall("mute"); }
+        else if(isPlaying){ safeCall("unMute"); safeCall("setVolume", v); safeCall("playVideo"); }
+      }
     });
   }
 })();
