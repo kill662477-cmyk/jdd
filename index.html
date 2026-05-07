@@ -336,7 +336,6 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
   let ytPlayer = null;
   let isPlaying = true;
   let ready = false;
-  let pendingUnmuteTimer = null;
 
   function currentVolume(){
     return Math.max(0, Math.min(100, parseInt(volume && volume.value || START_VOLUME, 10) || START_VOLUME));
@@ -360,40 +359,57 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
   }
 
   function safeCall(fn){
-    try{ if(ytPlayer && typeof ytPlayer[fn] === "function") ytPlayer[fn].apply(ytPlayer, Array.prototype.slice.call(arguments,1)); }catch(e){}
+    try{
+      if(ytPlayer && typeof ytPlayer[fn] === "function"){
+        ytPlayer[fn].apply(ytPlayer, Array.prototype.slice.call(arguments,1));
+      }
+    }catch(e){}
   }
 
-  function applyLowVolumeThenSound(){
-    if(!ytPlayer) return;
+  function fastOpenSound(){
+    if(!ytPlayer || !isPlaying) return;
     const v = currentVolume();
 
-    // 핵심: 절대 먼저 unMute 하지 않고, mute 상태에서 볼륨 명령을 여러 번 먹인 뒤 소리를 연다.
-    safeCall("mute");
+    // 초고속형: mute autoplay 상태에서 바로 15% 고정 후 unmute를 짧은 간격으로 연타
     safeCall("setVolume", v);
     safeCall("playVideo");
+    safeCall("unMute");
+    safeCall("setVolume", v);
 
-    clearTimeout(pendingUnmuteTimer);
-    pendingUnmuteTimer = setTimeout(function(){
-      safeCall("setVolume", v);
+    setTimeout(function(){
+      if(!isPlaying) return;
+      safeCall("setVolume", currentVolume());
       safeCall("unMute");
-      safeCall("setVolume", v);
-      if(isPlaying) safeCall("playVideo");
-    }, 900);
-  }
+      safeCall("playVideo");
+    }, 120);
 
-  function playBgm(){
-    setPlayingUI();
-    if(!ready || !ytPlayer) return;
-    applyLowVolumeThenSound();
+    setTimeout(function(){
+      if(!isPlaying) return;
+      safeCall("setVolume", currentVolume());
+      safeCall("unMute");
+      safeCall("playVideo");
+    }, 280);
+
+    setTimeout(function(){
+      if(!isPlaying) return;
+      safeCall("setVolume", currentVolume());
+      safeCall("unMute");
+      safeCall("playVideo");
+    }, 650);
   }
 
   function stopBgm(){
-    clearTimeout(pendingUnmuteTimer);
     if(ytPlayer){
       safeCall("pauseVideo");
       safeCall("mute");
     }
     setStoppedUI();
+  }
+
+  function playBgm(){
+    setPlayingUI();
+    if(!ready || !ytPlayer) return;
+    fastOpenSound();
   }
 
   syncVolumeText(START_VOLUME);
@@ -421,17 +437,12 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
         onReady: function(){
           ready = true;
           syncVolumeText(START_VOLUME);
-          if(isPlaying){
-            applyLowVolumeThenSound();
-            setTimeout(applyLowVolumeThenSound, 700);
-            setTimeout(function(){ if(isPlaying) openSound(); }, 1800);
-          }
+          // 대기시간 줄임: 준비되자마자 즉시 unmute 시도
+          fastOpenSound();
         },
         onStateChange: function(e){
-          // 중간에 유튜브가 다시 기본값으로 튀는 경우 대비해서 재생 시작 직후에도 한 번 더 15% 고정
           if(e && e.data === 1){
-            const v = currentVolume();
-            safeCall("setVolume", v);
+            safeCall("setVolume", currentVolume());
             if(isPlaying) setPlayingUI();
           }
         }
@@ -439,33 +450,25 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
     });
   };
 
-  // API 스크립트 로드
+  // API 스크립트 최대한 빨리 로드
   const tag = document.createElement("script");
   tag.src = "https://www.youtube.com/iframe_api";
+  tag.async = true;
   const firstScript = document.getElementsByTagName("script")[0];
   firstScript.parentNode.insertBefore(tag, firstScript);
 
-  function openSound(){
-    if(!ytPlayer) return;
-    const v = currentVolume();
-    safeCall("setVolume", v);
-    safeCall("unMute");
-    safeCall("setVolume", v);
-    if(isPlaying) safeCall("playVideo");
-  }
-
-  // 자동 소리 켜기 재시도: mute 로드 후 15% 적용 → unmute 여러 번 시도
+  // 로드 직후에도 짧은 간격으로 재시도
   window.addEventListener("load", function(){
-    [500, 1200, 2200, 3500].forEach(function(ms){
-      setTimeout(function(){ if(isPlaying) openSound(); }, ms);
+    [80, 180, 350, 700, 1200].forEach(function(ms){
+      setTimeout(function(){ if(isPlaying) fastOpenSound(); }, ms);
     });
   });
 
-  // 첫 사용자 동작 때도 재생 시도. 단, BGM 버튼/슬라이더 클릭은 여기서 가로채지 않음.
+  // 첫 사용자 동작 때 바로 재시도. BGM 박스 조작은 건드리지 않음.
   ["pointerdown","touchstart","mousedown","keydown"].forEach(function(ev){
     window.addEventListener(ev, function once(e){
       if(e && e.target && e.target.closest && e.target.closest(".bgmBox")) return;
-      if(isPlaying) openSound();
+      if(isPlaying) fastOpenSound();
       window.removeEventListener(ev, once, true);
     }, true);
   });
@@ -476,11 +479,7 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
     if(isPlaying){
       stopBgm();
     }else{
-      setPlayingUI();
-      if(!ready || !ytPlayer) return;
-      openSound();
-      setTimeout(openSound, 350);
-      setTimeout(openSound, 900);
+      playBgm();
     }
   });
 
@@ -490,8 +489,13 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
       syncVolumeText(v);
       if(ytPlayer){
         safeCall("setVolume", v);
-        if(v <= 0){ safeCall("mute"); }
-        else if(isPlaying){ safeCall("unMute"); safeCall("setVolume", v); safeCall("playVideo"); }
+        if(v <= 0){
+          safeCall("mute");
+        }else if(isPlaying){
+          safeCall("unMute");
+          safeCall("setVolume", v);
+          safeCall("playVideo");
+        }
       }
     });
   }
