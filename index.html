@@ -421,7 +421,11 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
         onReady: function(){
           ready = true;
           syncVolumeText(START_VOLUME);
-          if(isPlaying) applyLowVolumeThenSound();
+          if(isPlaying){
+            applyLowVolumeThenSound();
+            setTimeout(applyLowVolumeThenSound, 700);
+            setTimeout(function(){ if(isPlaying) openSound(); }, 1800);
+          }
         },
         onStateChange: function(e){
           // 중간에 유튜브가 다시 기본값으로 튀는 경우 대비해서 재생 시작 직후에도 한 번 더 15% 고정
@@ -441,10 +445,27 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
   const firstScript = document.getElementsByTagName("script")[0];
   firstScript.parentNode.insertBefore(tag, firstScript);
 
-  // 첫 사용자 동작 때도 버튼 2번 누를 필요 없게 같은 재생 함수를 바로 호출
+  function openSound(){
+    if(!ytPlayer) return;
+    const v = currentVolume();
+    safeCall("setVolume", v);
+    safeCall("unMute");
+    safeCall("setVolume", v);
+    if(isPlaying) safeCall("playVideo");
+  }
+
+  // 자동 소리 켜기 재시도: mute 로드 후 15% 적용 → unmute 여러 번 시도
+  window.addEventListener("load", function(){
+    [500, 1200, 2200, 3500].forEach(function(ms){
+      setTimeout(function(){ if(isPlaying) openSound(); }, ms);
+    });
+  });
+
+  // 첫 사용자 동작 때도 재생 시도. 단, BGM 버튼/슬라이더 클릭은 여기서 가로채지 않음.
   ["pointerdown","touchstart","mousedown","keydown"].forEach(function(ev){
-    window.addEventListener(ev, function once(){
-      if(isPlaying) playBgm();
+    window.addEventListener(ev, function once(e){
+      if(e && e.target && e.target.closest && e.target.closest(".bgmBox")) return;
+      if(isPlaying) openSound();
       window.removeEventListener(ev, once, true);
     }, true);
   });
@@ -455,7 +476,11 @@ loadAnalysis();loadNotices();loadLive();loadSchedule();loadVod();setInterval(loa
     if(isPlaying){
       stopBgm();
     }else{
-      playBgm();
+      setPlayingUI();
+      if(!ready || !ytPlayer) return;
+      openSound();
+      setTimeout(openSound, 350);
+      setTimeout(openSound, 900);
     }
   });
 
