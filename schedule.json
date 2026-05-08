@@ -59,25 +59,25 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "8일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "8일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "8일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 6,
       "dayName": "토",
       "date": "9일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "9일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 5:00",
+      "title": "스튜디오 24시간",
+      "cellText": "9일 합방 오후 5시",
+      "detailText": "합방 오후 5:00 스튜디오 24시간",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-08T09:01:23+09:00"
+  "scrapedAt": "2026-05-08T10:01:33+09:00"
 }
