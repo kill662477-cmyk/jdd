@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "13일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 7:00",
       "title": "스승의날 CK",
-      "cellText": "13일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 스승의날 CK",
+      "cellText": "13일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 스승의날 CK",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-13T18:01:25+09:00"
+  "scrapedAt": "2026-05-13T19:01:15+09:00"
 }
