@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "14일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "14일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 6:00",
+      "title": "스승의날",
+      "cellText": "14일 합방 오후 6시",
+      "detailText": "합방 오후 6:00 스승의날",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-13T22:01:22+09:00"
+  "scrapedAt": "2026-05-13T23:01:53+09:00"
 }
