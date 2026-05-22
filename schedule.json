@@ -59,11 +59,11 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "22일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 1:00",
       "title": "낮방",
-      "cellText": "22일 방송 예정 오후 1시",
-      "detailText": "방송 예정 오후 1:00 낮방",
+      "cellText": "22일 방송 오후 1시",
+      "detailText": "방송 오후 1:00 낮방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-22T12:01:17+09:00"
+  "scrapedAt": "2026-05-22T13:01:13+09:00"
 }
