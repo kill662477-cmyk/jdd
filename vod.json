@@ -1,11 +1,10 @@
 {
   "latest": {
-    "title": "다시보기를 불러오지 못했습니다",
-    "url": "https://www.sooplive.com/station/wjswlgns09/vod/review",
-    "thumb": "",
+    "title": "다시보기 8:27:28",
+    "url": "https://vod.sooplive.com/player/197079011",
+    "thumb": "https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260528_85E81AAB_294366429_3_r",
     "source": "https://www.sooplive.com/station/wjswlgns09/vod/review",
-    "error": "NO_VALID_VOD_CARD_FOUND",
-    "scrapedAt": "2026-05-29T14:00:56+09:00"
+    "scrapedAt": "2026-05-29T15:01:00+09:00"
   },
-  "scrapedAt": "2026-05-29T14:00:56+09:00"
+  "scrapedAt": "2026-05-29T15:01:03+09:00"
 }
