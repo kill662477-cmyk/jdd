@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "30일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "30일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 7:00",
+      "title": "비방연습",
+      "cellText": "30일 기타 오후 7시",
+      "detailText": "기타 오후 7:00 비방연습",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-30T04:01:21+09:00"
+  "scrapedAt": "2026-05-30T05:01:11+09:00"
 }
