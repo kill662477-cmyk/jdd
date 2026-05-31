@@ -4,22 +4,22 @@
       "dayIndex": 0,
       "dayName": "일",
       "date": "31일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "31일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 7:00",
+      "title": "비방연습",
+      "cellText": "31일 기타 오후 7시",
+      "detailText": "기타 오후 7:00 비방연습",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 1,
       "dayName": "월",
       "date": "1일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "1일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 5:00",
+      "title": "스타워즈 별들의 전쟁",
+      "cellText": "1일 합방 오후 5시",
+      "detailText": "합방 오후 5:00 스타워즈 별들의 전쟁",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-05-31T20:05:57+09:00"
+  "scrapedAt": "2026-05-31T21:01:13+09:00"
 }
