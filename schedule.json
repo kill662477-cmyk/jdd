@@ -26,11 +26,11 @@
       "dayIndex": 2,
       "dayName": "화",
       "date": "2일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "2일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 2:00",
+      "title": "갯벌나락전 🆚 씨나인",
+      "cellText": "2일 합방 오후 2시",
+      "detailText": "합방 오후 2:00 갯벌나락전 🆚 씨나인",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-02T14:01:13+09:00"
+  "scrapedAt": "2026-06-02T15:01:27+09:00"
 }
