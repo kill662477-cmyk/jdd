@@ -4,11 +4,11 @@
       "dayIndex": 0,
       "dayName": "일",
       "date": "7일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "7일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "7일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -26,11 +26,11 @@
       "dayIndex": 2,
       "dayName": "화",
       "date": "9일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "9일",
-      "detailText": "",
+      "status": "방송 예정",
+      "time": "오후 7:00",
+      "title": "미니대전",
+      "cellText": "9일 방송 예정 오후 7시",
+      "detailText": "방송 예정 오후 7:00 미니대전",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-07T16:12:30+09:00"
+  "scrapedAt": "2026-06-07T17:01:16+09:00"
 }
