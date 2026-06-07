@@ -28,9 +28,9 @@
       "date": "9일",
       "status": "방송 예정",
       "time": "오후 7:00",
-      "title": "미니대전",
+      "title": "미니대전 🆚 DM",
       "cellText": "9일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 미니대전",
+      "detailText": "방송 예정 오후 7:00 미니대전 🆚 DM",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-08T02:01:16+09:00"
+  "scrapedAt": "2026-06-08T03:01:19+09:00"
 }
