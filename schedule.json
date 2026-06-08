@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "10일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "10일",
-      "detailText": "",
+      "status": "방송 예정",
+      "time": "오후 7:00",
+      "title": "미니대전 🆚 뉴캣슬",
+      "cellText": "10일 방송 예정 오후 7시",
+      "detailText": "방송 예정 오후 7:00 미니대전 🆚 뉴캣슬",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-08T19:01:31+09:00"
+  "scrapedAt": "2026-06-08T20:01:29+09:00"
 }
