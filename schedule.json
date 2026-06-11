@@ -59,11 +59,11 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "12일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "12일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 7:00",
+      "title": "비방연습",
+      "cellText": "12일 기타 오후 7시",
+      "detailText": "기타 오후 7:00 비방연습",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-12T00:01:24+09:00"
+  "scrapedAt": "2026-06-12T01:01:22+09:00"
 }
