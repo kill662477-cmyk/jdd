@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "13일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "13일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 7:00",
+      "title": "대학대전 🆚 JSA",
+      "cellText": "13일 합방 오후 7시",
+      "detailText": "합방 오후 7:00 대학대전 🆚 JSA",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-12T17:01:18+09:00"
+  "scrapedAt": "2026-06-12T18:01:24+09:00"
 }
