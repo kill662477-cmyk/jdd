@@ -37,22 +37,22 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "17일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "17일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "17일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 4,
       "dayName": "목",
       "date": "18일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "18일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 12:00",
+      "title": "촌캉스",
+      "cellText": "18일 합방 오후 12시",
+      "detailText": "합방 오후 12:00 촌캉스",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-17T09:01:24+09:00"
+  "scrapedAt": "2026-06-17T10:01:23+09:00"
 }
