@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "24일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 7:00",
       "title": "뉴캄옥션",
-      "cellText": "24일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 뉴캄옥션",
+      "cellText": "24일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 뉴캄옥션",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-24T18:01:20+09:00"
+  "scrapedAt": "2026-06-24T19:01:18+09:00"
 }
