@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "27일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "27일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "27일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-06-26T17:01:14+09:00"
+  "scrapedAt": "2026-06-26T18:01:15+09:00"
 }
