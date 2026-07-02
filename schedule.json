@@ -59,25 +59,25 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "3일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "3일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "3일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 6,
       "dayName": "토",
       "date": "4일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "4일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 3:00",
+      "title": "뉴캄옥션 결승직관",
+      "cellText": "4일 기타 오후 3시",
+      "detailText": "기타 오후 3:00 뉴캄옥션 결승직관",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-03T01:01:24+09:00"
+  "scrapedAt": "2026-07-03T01:59:46+09:00"
 }
