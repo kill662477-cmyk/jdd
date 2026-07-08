@@ -59,11 +59,11 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "10일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "10일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "10일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-09T02:02:04+09:00"
+  "scrapedAt": "2026-07-09T03:01:44+09:00"
 }
