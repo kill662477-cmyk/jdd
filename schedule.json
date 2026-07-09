@@ -48,22 +48,22 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "9일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "9일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "9일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 5,
       "dayName": "금",
       "date": "10일",
-      "status": "휴방",
-      "time": "오후 7:00",
-      "title": "휴방",
-      "cellText": "10일 휴방 오후 7시",
-      "detailText": "휴방 오후 7:00 휴방",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "10일",
+      "detailText": "",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-09T10:01:35+09:00"
+  "scrapedAt": "2026-07-09T11:01:40+09:00"
 }
