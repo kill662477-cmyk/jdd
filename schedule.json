@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "15일",
-      "status": "합방",
-      "time": "오후 2:00",
-      "title": "테란반 글램핑(예정)",
-      "cellText": "15일 합방 오후 2시",
-      "detailText": "합방 오후 2:00 테란반 글램핑(예정)",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "15일",
+      "detailText": "",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-12T08:01:26+09:00"
+  "scrapedAt": "2026-07-12T09:01:28+09:00"
 }
