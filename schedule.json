@@ -15,11 +15,11 @@
       "dayIndex": 1,
       "dayName": "월",
       "date": "13일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "13일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 3:00",
+      "title": "테란반 글램핑",
+      "cellText": "13일 합방 오후 3시",
+      "detailText": "합방 오후 3:00 테란반 글램핑",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-12T20:01:29+09:00"
+  "scrapedAt": "2026-07-12T21:02:47+09:00"
 }
