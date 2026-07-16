@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "16일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 7:00",
       "title": "미니대전 🆚 씨나인",
-      "cellText": "16일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 미니대전 🆚 씨나인",
+      "cellText": "16일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 미니대전 🆚 씨나인",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-16T18:01:30+09:00"
+  "scrapedAt": "2026-07-16T19:01:38+09:00"
 }
