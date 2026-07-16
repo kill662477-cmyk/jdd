@@ -60,10 +60,10 @@
       "dayName": "금",
       "date": "17일",
       "status": "휴방",
-      "time": "오후 7:00",
+      "time": "오전 6:00",
       "title": "휴방",
-      "cellText": "17일 휴방 오후 7시",
-      "detailText": "휴방 오후 7:00 휴방",
+      "cellText": "17일 휴방 오전 6시",
+      "detailText": "휴방 오전 6:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-16T17:01:25+09:00"
+  "scrapedAt": "2026-07-16T18:01:30+09:00"
 }
