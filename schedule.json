@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "29일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "29일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "29일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-07-28T02:05:53+09:00"
+  "scrapedAt": "2026-07-28T07:15:28+09:00"
 }
