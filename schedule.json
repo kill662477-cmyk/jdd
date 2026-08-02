@@ -4,11 +4,11 @@
       "dayIndex": 0,
       "dayName": "일",
       "date": "2일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "2일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "2일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-02T15:10:14+09:00"
+  "scrapedAt": "2026-08-02T19:48:02+09:00"
 }
