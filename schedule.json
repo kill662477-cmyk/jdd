@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "8일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "8일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 7:00",
+      "title": "중만컵 🆚 엠비대",
+      "cellText": "8일 합방 오후 7시",
+      "detailText": "합방 오후 7:00 중만컵 🆚 엠비대",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-04T15:02:18+09:00"
+  "scrapedAt": "2026-08-04T20:31:30+09:00"
 }
