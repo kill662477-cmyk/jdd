@@ -59,25 +59,25 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "14일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "14일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 7:00",
+      "title": "비방연습",
+      "cellText": "14일 기타 오후 7시",
+      "detailText": "기타 오후 7:00 비방연습",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 6,
       "dayName": "토",
       "date": "15일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "15일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오후 7:00",
+      "title": "비방연습",
+      "cellText": "15일 기타 오후 7시",
+      "detailText": "기타 오후 7:00 비방연습",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-12T13:57:10+09:00"
+  "scrapedAt": "2026-08-12T19:17:44+09:00"
 }
