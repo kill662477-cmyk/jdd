@@ -15,22 +15,22 @@
       "dayIndex": 1,
       "dayName": "월",
       "date": "24일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "24일",
-      "detailText": "",
+      "status": "방송",
+      "time": "오후 2:00",
+      "title": "합방 족구응원 &amp; 저녁",
+      "cellText": "24일 합방 오후 2시",
+      "detailText": "합방 오후 2:00 족구응원 &amp; 저녁방송",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 2,
       "dayName": "화",
       "date": "25일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "25일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 7:00",
+      "title": "휴방",
+      "cellText": "25일 휴방 오후 7시",
+      "detailText": "휴방 오후 7:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-24T00:33:31+09:00"
+  "scrapedAt": "2026-08-24T06:32:06+09:00"
 }
