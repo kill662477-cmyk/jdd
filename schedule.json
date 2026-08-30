@@ -59,11 +59,11 @@
       "dayIndex": 5,
       "dayName": "금",
       "date": "4일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "4일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 7:00",
+      "title": "K중만컵8강 🆚 케이대",
+      "cellText": "4일 합방 오후 7시",
+      "detailText": "합방 오후 7:00 K중만컵8강 🆚 케이대",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-30T18:09:46+09:00"
+  "scrapedAt": "2026-08-30T23:24:46+09:00"
 }
