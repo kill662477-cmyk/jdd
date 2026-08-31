@@ -26,11 +26,11 @@
       "dayIndex": 2,
       "dayName": "화",
       "date": "1일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오전 12:00",
       "title": "지두두 생일 🍰",
-      "cellText": "1일 방송 예정 오전 12시",
-      "detailText": "방송 예정 오전 12:00 지두두 생일 🍰",
+      "cellText": "1일 방송 오전 12시",
+      "detailText": "방송 오전 12:00 지두두 생일 🍰",
       "clickMethod": "block-match"
     },
     {
@@ -61,9 +61,9 @@
       "date": "4일",
       "status": "합방",
       "time": "오후 7:00",
-      "title": "K중만컵8강 🆚 케이대",
+      "title": "K중만컵 8강 🆚 케이대",
       "cellText": "4일 합방 오후 7시",
-      "detailText": "합방 오후 7:00 K중만컵8강 🆚 케이대",
+      "detailText": "합방 오후 7:00 K중만컵 8강 🆚 케이대",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-08-31T18:38:40+09:00"
+  "scrapedAt": "2026-09-01T05:48:19+09:00"
 }
