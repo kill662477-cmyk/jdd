@@ -37,11 +37,11 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "2일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "2일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오전 12:00",
+      "title": "~ 3일(목) 비방연습",
+      "cellText": "2일 기타 오전 12시",
+      "detailText": "기타 오전 12:00 ~ 3일(목) 비방연습",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-09-01T09:34:35+09:00"
+  "scrapedAt": "2026-09-01T17:34:26+09:00"
 }
