@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "17일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "17일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 5:00",
+      "title": "휴방",
+      "cellText": "17일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 휴방",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-09-17T08:38:17+09:00"
+  "scrapedAt": "2026-09-17T17:35:36+09:00"
 }
