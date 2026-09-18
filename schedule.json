@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "19일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "19일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오후 2:00",
+      "title": "야방 (w.으냉)",
+      "cellText": "19일 합방 오후 2시",
+      "detailText": "합방 오후 2:00 야방 (w.으냉)",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-09-18T22:33:59+09:00"
+  "scrapedAt": "2026-09-19T03:22:21+09:00"
 }
