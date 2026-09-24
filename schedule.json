@@ -49,35 +49,35 @@
       "dayName": "목",
       "date": "24일",
       "status": "휴방",
-      "time": "오전 12:00",
-      "title": "~ 27(일) 명절",
-      "cellText": "24일 휴방 오전 12시",
-      "detailText": "휴방 오전 12:00 ~ 27(일) 명절휴방",
+      "time": "오후 5:00",
+      "title": "명절",
+      "cellText": "24일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 명절휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 5,
       "dayName": "금",
       "date": "25일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "25일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 5:00",
+      "title": "명절",
+      "cellText": "25일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 명절휴방",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 6,
       "dayName": "토",
       "date": "26일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "26일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 5:00",
+      "title": "명절",
+      "cellText": "26일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 명절휴방",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-09-24T08:38:08+09:00"
+  "scrapedAt": "2026-09-24T17:22:36+09:00"
 }
