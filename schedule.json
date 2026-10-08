@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "10일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "10일",
-      "detailText": "",
+      "status": "방송 예정",
+      "time": "오후 7:00",
+      "title": "소주양 CK",
+      "cellText": "10일 방송 예정 오후 7시",
+      "detailText": "방송 예정 오후 7:00 소주양 CK",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-10-08T19:27:01+09:00"
+  "scrapedAt": "2026-10-09T05:40:33+09:00"
 }
