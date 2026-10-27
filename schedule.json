@@ -37,22 +37,22 @@
       "dayIndex": 3,
       "dayName": "수",
       "date": "28일",
-      "status": "기타",
-      "time": "오전 12:00",
-      "title": "~ 29(목) 비방연습",
-      "cellText": "28일 기타 오전 12시",
-      "detailText": "기타 오전 12:00 ~ 29(목) 비방연습",
+      "status": "",
+      "time": "",
+      "title": "일정 없음",
+      "cellText": "28일",
+      "detailText": "",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 4,
       "dayName": "목",
       "date": "29일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "29일",
-      "detailText": "",
+      "status": "기타",
+      "time": "오전 12:00",
+      "title": "비방연습",
+      "cellText": "29일 기타 오전 12시",
+      "detailText": "기타 오전 12:00 비방연습",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-10-27T17:53:24+09:00"
+  "scrapedAt": "2026-10-28T00:18:50+09:00"
 }
