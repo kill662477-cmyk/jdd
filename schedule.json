@@ -26,11 +26,11 @@
       "dayIndex": 2,
       "dayName": "화",
       "date": "10일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "10일",
-      "detailText": "",
+      "status": "방송 예정",
+      "time": "오후 8:00",
+      "title": "종겜 (리밍.두두.태영.탱)",
+      "cellText": "10일 방송 예정 오후 8시",
+      "detailText": "방송 예정 오후 8:00 종겜 (리밍.두두.태영.탱)",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-11-08T19:11:08+09:00"
+  "scrapedAt": "2026-11-09T04:34:12+09:00"
 }
