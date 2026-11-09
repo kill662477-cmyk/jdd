@@ -6,20 +6,20 @@
       "date": "8일",
       "status": "합방",
       "time": "오전 12:00",
-      "title": "~ 9일(월) 캄몬 MT",
+      "title": "캄몬 MT",
       "cellText": "8일 합방 오전 12시",
-      "detailText": "합방 오전 12:00 ~ 9일(월) 캄몬 MT",
+      "detailText": "합방 오전 12:00 캄몬 MT",
       "clickMethod": "block-match"
     },
     {
       "dayIndex": 1,
       "dayName": "월",
       "date": "9일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "9일",
-      "detailText": "",
+      "status": "합방",
+      "time": "오전 12:00",
+      "title": "캄몬 MT",
+      "cellText": "9일 합방 오전 12시",
+      "detailText": "합방 오전 12:00 캄몬 MT",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-11-09T09:47:46+09:00"
+  "scrapedAt": "2026-11-09T20:21:30+09:00"
 }
