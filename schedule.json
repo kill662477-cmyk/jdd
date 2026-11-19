@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "19일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "19일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 5:00",
+      "title": "💦",
+      "cellText": "19일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 휴방 💦",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-11-19T07:33:55+09:00"
+  "scrapedAt": "2026-11-19T20:30:45+09:00"
 }
