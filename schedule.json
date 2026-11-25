@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "26일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "26일",
-      "detailText": "",
+      "status": "방송 예정",
+      "time": "오후 7:00",
+      "title": "합동대학대전",
+      "cellText": "26일 방송 예정 오후 7시",
+      "detailText": "방송 예정 오후 7:00 합동대학대전",
       "clickMethod": "block-match"
     },
     {
@@ -79,5 +79,5 @@
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-11-25T08:51:32+09:00"
+  "scrapedAt": "2026-11-25T21:41:33+09:00"
 }
