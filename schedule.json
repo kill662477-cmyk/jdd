@@ -48,11 +48,11 @@
       "dayIndex": 4,
       "dayName": "목",
       "date": "26일",
-      "status": "방송 예정",
+      "status": "방송",
       "time": "오후 7:00",
       "title": "합동대학대전",
-      "cellText": "26일 방송 예정 오후 7시",
-      "detailText": "방송 예정 오후 7:00 합동대학대전",
+      "cellText": "26일 방송 오후 7시",
+      "detailText": "방송 오후 7:00 합동대학대전",
       "clickMethod": "block-match"
     },
     {
@@ -70,14 +70,14 @@
       "dayIndex": 6,
       "dayName": "토",
       "date": "28일",
-      "status": "",
-      "time": "",
-      "title": "일정 없음",
-      "cellText": "28일",
-      "detailText": "",
+      "status": "휴방",
+      "time": "오후 5:00",
+      "title": "💦",
+      "cellText": "28일 휴방 오후 5시",
+      "detailText": "휴방 오후 5:00 휴방 💦",
       "clickMethod": "block-match"
     }
   ],
   "source": "https://www.sooplive.com/station/wjswlgns09/calendar",
-  "scrapedAt": "2026-11-26T08:35:01+09:00"
+  "scrapedAt": "2026-11-26T21:17:08+09:00"
 }
